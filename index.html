@@ -3,28 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Multi-step Form</title>
+    <title>Formulaire avec Validation</title>
     <link rel="stylesheet" href="bootstrap.css" />
   </head>
 
   <body>
-    <!----------------------------------- Form ----------------------------------->
+    <!----------------------------------- Formulaire ----------------------------------->
     <div class="container">
       <div class="card">
         <form id="form" onsubmit="submitForm(event)">
-          <h1>Multi-step Form</h1>
+          <h1>Form</h1>
 
           <!----------------------------------- Section 1 ----------------------------------->
           <div class="input-control section" id="section1">
             <label for="firstname">First name:</label>
-            <input type="text" placeholder="First name" id="firstname" required />
-            <div class="error"></div>
+            <input type="text" placeholder="First name" id="firstname" />
+            <div class="error" id="error-firstname"></div>
 
             <label for="lastname">Last name:</label>
-            <input type="text" placeholder="Last name" id="lastname" required />
+            <input type="text" placeholder="Last name" id="lastname" />
+            <div class="error" id="error-lastname"></div>
 
             <label for="age">Age:</label>
-            <input type="number" placeholder="Enter your age" id="age" required />
+            <input type="number" placeholder="Enter your age" id="age" />
+            <div class="error" id="error-age"></div>
 
             <div class="button">
               <button class="sub" type="button" onclick="nextSection(2)">Next</button>
@@ -34,10 +36,12 @@
           <!----------------------------------- Section 2 ----------------------------------->
           <div class="input-control section" id="section2" style="display: none">
             <label for="email">Email:</label>
-            <input type="email" placeholder="Enter your email" id="email" required />
+            <input type="email" placeholder="Enter your email" id="email" />
+            <div class="error" id="error-email"></div>
 
             <label for="phone">Phone number:</label>
-            <input type="number" placeholder="Enter your phone number" id="phone" required />
+            <input type="number" placeholder="Enter your phone number" id="phone" />
+            <div class="error" id="error-phone"></div>
 
             <div class="button">
               <button class="res" type="button" onclick="prevSection(1)">Previous</button>
@@ -48,7 +52,8 @@
           <!----------------------------------- Section 3 ----------------------------------->
           <div class="input-control section" id="section3" style="display: none">
             <label for="feedback">Your feedback:</label>
-            <input type="text" placeholder="Enter your feedback" id="feedback" class="feed-input" required />
+            <input type="text" placeholder="Enter your feedback" id="feedback" />
+            <div class="error" id="error-feedback"></div>
 
             <div class="button">
               <button class="res" type="button" onclick="prevSection(2)">Previous</button>
@@ -69,18 +74,61 @@
       }
 
       function nextSection(sectionNumber) {
-        showSection(sectionNumber);
+        if (validateSection(sectionNumber - 1)) {
+          showSection(sectionNumber);
+        }
       }
 
       function prevSection(sectionNumber) {
         showSection(sectionNumber);
       }
 
+      function validateSection(sectionNumber) {
+        let isValid = true;
+
+        if (sectionNumber === 1) {
+          isValid = validateField("firstname") && validateField("lastname") && validateField("age");
+        } else if (sectionNumber === 2) {
+          isValid = validateField("email") && validateField("phone");
+        } else if (sectionNumber === 3) {
+          isValid = validateField("feedback");
+        }
+
+        return isValid;
+      }
+
+      function validateField(fieldId) {
+        const field = document.getElementById(fieldId);
+        const errorElement = document.getElementById("error-" + fieldId);
+        let isValid = true;
+
+        if (field.value.trim() === "") {
+          errorElement.textContent = `${field.placeholder} is required`;
+          isValid = false;
+        } else {
+          errorElement.textContent = ""; // Clear any previous error
+        }
+
+        if (fieldId === "age" && field.value < 18) {
+          errorElement.textContent = "Age must be 18 or older";
+          isValid = false;
+        }
+
+        if (fieldId === "email" && !/\S+@\S+\.\S+/.test(field.value)) {
+          errorElement.textContent = "Please enter a valid email address";
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
       function submitForm(event) {
         event.preventDefault();
-        alert("Form submitted successfully!");
-        document.getElementById("form").reset();
-        showSection(1);
+        if (validateSection(3)) {
+          alert("Form submitted successfully!");
+          document.getElementById("form").reset();
+          showSection(1);
+        }
       }
     </script>
 

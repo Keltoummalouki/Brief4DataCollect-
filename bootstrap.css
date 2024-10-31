@@ -54,3 +54,7 @@ body{
   font-size: 9px;
   height: 13px;
 }
+.error {
+  color: red;
+  font-size: 0.9em;
+}
