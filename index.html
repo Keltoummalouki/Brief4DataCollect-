@@ -3,61 +3,155 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulaire avec Validation</title>
-    <link rel="stylesheet" href="bootstrap.css" />
+    <title>Survey Form with Validation</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      .container {
+        max-width: 600px;
+        margin-top: 50px;
+      }
+      .error {
+        color: red;
+        font-size: 0.875rem;
+      }
+      .button {
+        display: flex;
+        justify-content: space-between;
+      }
+      .card {
+        padding: 20px;
+      }
+    </style>
   </head>
 
   <body>
-    <!----------------------------------- Formulaire ----------------------------------->
+    <!----------------------------------- Form ----------------------------------->
     <div class="container">
-      <div class="card">
+      <div class="card shadow">
         <form id="form" onsubmit="submitForm(event)">
-          <h1>Form</h1>
+          <h1 class="text-center mb-4">Survey Form</h1>
 
           <!----------------------------------- Section 1 ----------------------------------->
           <div class="input-control section" id="section1">
-            <label for="firstname">First name:</label>
-            <input type="text" placeholder="First name" id="firstname" />
-            <div class="error" id="error-firstname"></div>
+            <div class="form-group">
+              <label for="firstname">First name:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="First name"
+                id="firstname"
+              />
+              <div class="error" id="error-firstname"></div>
+            </div>
 
-            <label for="lastname">Last name:</label>
-            <input type="text" placeholder="Last name" id="lastname" />
-            <div class="error" id="error-lastname"></div>
+            <div class="form-group">
+              <label for="lastname">Last name:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Last name"
+                id="lastname"
+              />
+              <div class="error" id="error-lastname"></div>
+            </div>
 
-            <label for="age">Age:</label>
-            <input type="number" placeholder="Enter your age" id="age" />
-            <div class="error" id="error-age"></div>
+            <div class="form-group">
+              <label for="age">Age:</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter your age"
+                id="age"
+              />
+              <div class="error" id="error-age"></div>
+            </div>
 
-            <div class="button">
-              <button class="sub" type="button" onclick="nextSection(2)">Next</button>
+            <div class="button mt-3">
+              <button
+                class="btn btn-primary"
+                type="button"
+                onclick="nextSection(2)"
+              >
+                Next
+              </button>
             </div>
           </div>
 
           <!----------------------------------- Section 2 ----------------------------------->
-          <div class="input-control section" id="section2" style="display: none">
-            <label for="email">Email:</label>
-            <input type="email" placeholder="Enter your email" id="email" />
-            <div class="error" id="error-email"></div>
+          <div
+            class="input-control section"
+            id="section2"
+            style="display: none"
+          >
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Enter your email"
+                id="email"
+              />
+              <div class="error" id="error-email"></div>
+            </div>
 
-            <label for="phone">Phone number:</label>
-            <input type="number" placeholder="Enter your phone number" id="phone" />
-            <div class="error" id="error-phone"></div>
+            <div class="form-group">
+              <label for="phone">Phone number:</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter your phone number"
+                id="phone"
+              />
+              <div class="error" id="error-phone"></div>
+            </div>
 
-            <div class="button">
-              <button class="res" type="button" onclick="prevSection(1)">Previous</button>
-              <button class="sub" type="button" onclick="nextSection(3)">Next</button>
+            <div class="button mt-3">
+              <button
+                class="btn btn-secondary"
+                type="button"
+                onclick="prevSection(1)"
+              >
+                Previous
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                onclick="nextSection(3)"
+              >
+                Next
+              </button>
             </div>
           </div>
 
           <!----------------------------------- Section 3 ----------------------------------->
-          <div class="input-control section" id="section3" style="display: none">
-            <label for="feedback">Your feedback:</label>
-            <input type="text" placeholder="Enter your feedback" id="feedback" />
-            <div class="error" id="error-feedback"></div>
+          <div
+            class="input-control section"
+            id="section3"
+            style="display: none"
+          >
+            <div class="form-group">
+              <label for="feedback">Your feedback:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter your feedback"
+                id="feedback"
+              />
+              <div class="error" id="error-feedback"></div>
+            </div>
 
-            <div class="button">
-              <button class="res" type="button" onclick="prevSection(2)">Previous</button>
-              <button class="sub" type="submit">Submit</button>
+            <div class="button mt-3">
+              <button
+                class="btn btn-secondary"
+                type="button"
+                onclick="prevSection(2)"
+              >
+                Previous
+              </button>
+              <button class="btn btn-success" type="submit">Submit</button>
             </div>
           </div>
         </form>
@@ -70,7 +164,8 @@
         document.querySelectorAll(".section").forEach((section) => {
           section.style.display = "none";
         });
-        document.getElementById("section" + sectionNumber).style.display = "block";
+        document.getElementById("section" + sectionNumber).style.display =
+          "block";
       }
 
       function nextSection(sectionNumber) {
@@ -87,7 +182,10 @@
         let isValid = true;
 
         if (sectionNumber === 1) {
-          isValid = validateField("firstname") && validateField("lastname") && validateField("age");
+          isValid =
+            validateField("firstname") &&
+            validateField("lastname") &&
+            validateField("age");
         } else if (sectionNumber === 2) {
           isValid = validateField("email") && validateField("phone");
         } else if (sectionNumber === 3) {
